@@ -1,6 +1,8 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/python,vscode,windows,macos,linux,virtualenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,vscode,windows,macos,linux,virtualenv
+
+### Project specific ###
+*.csv
 
 ### Linux ###
 *~

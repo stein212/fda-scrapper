@@ -5,6 +5,9 @@ from datetime import datetime
 import os
 import csv
 
+scrap_date_format = "%B %d, %Y"
+save_date_format = "%d %b %Y"
+
 # create and open file to check and store latest account value
 csv_filepath = os.path.join(".", "federal-reserves-accounts.csv")
 if not os.path.exists(csv_filepath):
@@ -23,11 +26,11 @@ def check_latest_scrapped(csv_filepath, latest_issue_date):
             f.seek(0)
 
         last_line = f.readlines()[-1].decode()
-        reader = csv.reader(last_line, delimiter=",")
-        latest_scrapped_date = datetime.strptime(list(reader)[0][0], date_format)
+        reader = csv.reader([last_line], delimiter=",")
+        latest_scrapped_date = datetime.strptime(list(reader)[0][0], save_date_format)
         if latest_scrapped_date >= latest_issue_date:
             print(
-                f"latest scrapped issue: {latest_scrapped_date.strftime(date_format)}"
+                f"latest scrapped issue: {latest_scrapped_date.strftime(save_date_format)}"
             )
             exit(0)
 
@@ -49,12 +52,10 @@ latest_quarter_soup = latest_fy_soup.select('div[data-margin^="top-small"]')[-1]
 
 latest_issue_soup = latest_quarter_soup.select('ul[data-margin^="top-small"]')[0]
 
-date_format = "%B %d, %Y"
-
 latest_issue_date = latest_issue_soup.find("span").text
-latest_issue_date = datetime.strptime(latest_issue_date, "%B %d, %Y")
+latest_issue_date = datetime.strptime(latest_issue_date, scrap_date_format)
 
-print(f"latest issue date found: {latest_issue_date.strftime(date_format)}")
+print(f"latest issue date found: {latest_issue_date.strftime(save_date_format)}")
 
 check_latest_scrapped(csv_filepath, latest_issue_date)
 
@@ -78,4 +79,4 @@ account_value = re.sub("[^0-9]", "", account_value)
 
 with open(csv_filepath, "a") as f:
     writer = csv.writer(f, delimiter=",")
-    writer.writerow([latest_issue_date.strftime(date_format), account_value])
+    writer.writerow([latest_issue_date.strftime(save_date_format), account_value])
