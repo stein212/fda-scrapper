@@ -1,3 +1,4 @@
 {
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "python.pythonPath": "/home/stein121/projects/fda-scrapper/fda-scraper/bin/python3"
 }

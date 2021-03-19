@@ -1,5 +1,5 @@
-install:
-	pip install -r requirements.txt
+setup:
+	./setup.sh
 
-daily:
-	./run_daily.sh
+run:
+	./run.sh

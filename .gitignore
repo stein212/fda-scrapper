@@ -3,6 +3,7 @@
 
 ### Project specific ###
 *.csv
+fda-scraper
 
 ### Linux ###
 *~
