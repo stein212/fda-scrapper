@@ -20,7 +20,7 @@ csv_filepath = os.path.join(".", savefile_name)
 fda_domain = "https://fsapps.fiscal.treasury.gov"
 fda_issues_link = f"{fda_domain}/dts/issues/collapsed"
 
-keyword = "Total Federal Reserve Account"
+keyword = "Federal Reserve Account"
 
 session = FuturesSession(max_workers=30)
 
@@ -181,7 +181,7 @@ def get_accounts(texts):
             continue
 
         # extracting the values of the `keyword` from content
-        # e.g. 128,227     1,248,478    11,614,695
+        # e.g. Federal Reserve Account                $  1,728,569 $  1,613,514 $  1,622,986 $   1,781,679
 
         keyword_index = content.find(keyword)
         if keyword_index == -1:
@@ -191,6 +191,7 @@ def get_accounts(texts):
             continue
 
         start = keyword_index + len(keyword)
+        start = content.find("$", start) + 1
         end = content.find("\n", start)
         values = content[start:end].strip()
         account_value = values[: values.find(" ")]
@@ -202,7 +203,7 @@ def get_accounts(texts):
 
 
 def save_accounts(accounts):
-    with open(csv_filepath, "a") as f:
+    with open(csv_filepath, "a", newline="") as f:
         writer = csv.writer(f, delimiter=",")
 
         for account in accounts:
