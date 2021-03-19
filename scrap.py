@@ -2,14 +2,16 @@ import os
 import csv
 import re
 import time
+from math import ceil
+from datetime import datetime
+from pprint import pprint
 from bs4 import BeautifulSoup
 from requests_futures.sessions import FuturesSession
 from models.fy import FY
 from models.quarter import Quarter
 from models.text import Text
 from models.account import Account
-from datetime import datetime
-from pprint import pprint
+
 
 scrap_date_format = "%B %d, %Y"
 save_date_format = "%d %b %Y"
@@ -66,7 +68,7 @@ def main():
         save_accounts(accounts)
 
     seconds_taken = time.time() - start_time
-    print(f"Finished in {round(seconds_taken)}s")
+    print(f"Finished in {ceil(seconds_taken)}s")
 
 
 def create_savefile_if_not_exists():
